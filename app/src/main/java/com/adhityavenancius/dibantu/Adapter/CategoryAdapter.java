@@ -1,6 +1,7 @@
 package com.adhityavenancius.dibantu.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adhityavenancius.dibantu.Apihelper.UtilsApi;
+import com.adhityavenancius.dibantu.InputJobActivity;
 import com.adhityavenancius.dibantu.Model.AllcategoryItem;
 import com.adhityavenancius.dibantu.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -43,6 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         final AllcategoryItem allcategoryitem = allcategoryItemList.get(position);
         holder.name.setText(allcategoryitem.getName());
         holder.description.setText(allcategoryitem.getDescription());
+        holder.category_id.setText(allcategoryitem.getId());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -61,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public class CategoryHolder extends RecyclerView.ViewHolder{
-        public TextView name, description;
+        public TextView name, description,category_id;
         public ImageView thumbnail;
 
         public CategoryHolder(View itemView) {
@@ -69,6 +70,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             name = (TextView) itemView.findViewById(R.id.name);
             description = (TextView) itemView.findViewById(R.id.description);
             thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+            category_id = (TextView) itemView.findViewById(R.id.category_id);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override public void onClick(View v){
+                    Intent intent = new Intent(v.getContext(), InputJobActivity.class);
+
+                    intent.putExtra("category_id",category_id.getText() );
+                    v.getContext().startActivity(intent);
+                }
+            });
+
         }
     }
 

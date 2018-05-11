@@ -1,0 +1,136 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context="com.adhityavenancius.dibantu.InputJobActivity"
+    >
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/btnInputJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Input Job"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+    />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/map"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imgLocation"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgLocation"
+            android:hint="Location"
+            />
+
+        <ImageView
+            android:id="@+id/imgStartDate"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/etLocation"
+            />
+
+        <EditText
+            android:id="@+id/etStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etLocation"
+            android:layout_toRightOf="@id/imgStartDate"
+            android:hint="Start Date"/>
+
+
+        <ImageView
+            android:id="@+id/imgEndDate"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/etStartDate"
+            />
+
+        <EditText
+            android:id="@+id/etEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etStartDate"
+            android:layout_toRightOf="@id/imgEndDate"
+            android:hint="End Date"/>
+        <ImageView
+            android:id="@+id/imgTime"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/etEndDate"
+            />
+
+        <EditText
+            android:id="@+id/etTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEndDate"
+            android:layout_toRightOf="@id/imgTime"
+            android:hint="Time"/>
+        <ImageView
+            android:id="@+id/imgFare"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/etTime"
+            />
+
+        <EditText
+            android:id="@+id/etFare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etTime"
+            android:layout_toRightOf="@id/imgFare"
+            android:hint="Fare"/>
+
+        <EditText
+            android:id="@+id/etNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etFare"
+            android:hint="Notes"
+            android:minLines="3"/>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

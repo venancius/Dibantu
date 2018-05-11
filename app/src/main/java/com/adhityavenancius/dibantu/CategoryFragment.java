@@ -2,6 +2,7 @@ package com.adhityavenancius.dibantu;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adhityavenancius.dibantu.Adapter.CategoryAdapter;
@@ -43,6 +45,7 @@ public class CategoryFragment extends Fragment {
     BaseApiService mApiService;
     RecyclerView rvCategory;
     ProgressDialog loading;
+    TextView tvTaphere;
 
     Context mContext;
 
@@ -91,6 +94,20 @@ public class CategoryFragment extends Fragment {
 
         getResultListCategory();
 
+        tvTaphere = (TextView) view.findViewById(R.id.tvTapHere);
+
+        tvTaphere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, InputJobActivity.class);
+
+                intent.putExtra("category_id", "99");
+                startActivity(intent);
+            }
+        });
+
+
+
         return view;
     }
 
@@ -101,7 +118,6 @@ public class CategoryFragment extends Fragment {
         }
     }
 
-//    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
 //        if (context instanceof OnFragmentInteractionListener) {
