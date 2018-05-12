@@ -21,7 +21,8 @@
             android:layout_weight="1"
             android:text="Input Job"
             android:textColor="#FFFFFF"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:onClick="onClick"/>
 
     </LinearLayout>
 
@@ -127,6 +128,12 @@
             android:layout_below="@id/etFare"
             android:hint="Notes"
             android:minLines="3"/>
+
+        <TextView
+            android:id="@+id/tvCategoryId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
 
 

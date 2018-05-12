@@ -1,6 +1,7 @@
 package com.adhityavenancius.dibantu.Apihelper;
 
 import com.adhityavenancius.dibantu.Model.ResponseCategory;
+import com.adhityavenancius.dibantu.Model.ResponseJobs;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -31,6 +32,26 @@ public interface BaseApiService {
 
     @GET("category/getlist")
     Call<ResponseCategory> getAllCategory();
+
+
+    @FormUrlEncoded
+    @POST("jobs/inputjob")
+    Call<ResponseBody> inputJobRequest(@Field("id_user") String id_user,
+                                    @Field("id_worker") String id_worker,
+                                    @Field("id_category") String id_category,
+                                       @Field("startdate") String startdate,
+                                       @Field("enddate") String enddate,
+                                       @Field("location") String location,
+                                       @Field("time") String time,
+                                       @Field("fare") String fare,
+                                       @Field("notes") String notes,
+                                       @Field("status") String status
+                                       );
+
+    @FormUrlEncoded
+    @POST("jobs/getlist")
+    Call<ResponseJobs> getActiveJobsRequest(@Field("id_user") String id_user);
+
 
 
 

@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_myjobs:
                     toolbar.setTitle("My Jobs");
+                    loadFragment(new JobsFragment(),false);
                     return true;
                 case R.id.navigation_profile:
                     toolbar.setTitle("Profile");

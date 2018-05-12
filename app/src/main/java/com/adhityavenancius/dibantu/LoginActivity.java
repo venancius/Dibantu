@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     Button btnRegister;
     ProgressDialog loading;
-    String user = "user";
+    String role = "user";
 
     Context mContext;
     BaseApiService mApiService;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void requestLogin(){
-        mApiService.loginRequest(etEmail.getText().toString(), etPassword.getText().toString(),user)
+        mApiService.loginRequest(etEmail.getText().toString(), etPassword.getText().toString(),role)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -82,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                                 if (jsonRESULTS.getString("error").equals("false")){
                                     String name = jsonRESULTS.getJSONObject("userdata").getString("name");
                                     String email = jsonRESULTS.getJSONObject("userdata").getString("email");
-                                    session.createLoginSession(name, email);
+                                    String id = jsonRESULTS.getJSONObject("userdata").getString("id");
+                                    session.createLoginSession(id,name, email,role);
                                     // Jika login berhasil maka data nama yang ada di response API
                                     // akan diparsing ke activity selanjutnya.
                                     String success_message = jsonRESULTS.getString("message")+" as "+name;
