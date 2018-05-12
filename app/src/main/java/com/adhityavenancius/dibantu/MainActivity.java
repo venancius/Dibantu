@@ -76,9 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
         // supaya fragment pertama ga masuk stack back ( supaya kalo di pencet back ga ke blank fragment,
         // karena ga ada apa2 di belakang first fragment.. )
-        if(firstfragment==false){
-            transaction.addToBackStack(null);
-        }
+
+        //2018-05-12,hilangin aja deh biar backnya ga ke stack sebelumnya dari semua fragment
+//        if(firstfragment==false){
+//            transaction.addToBackStack(null);
+//        }
 
         transaction.commit();
     }

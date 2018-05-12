@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.adhityavenancius.dibantu.Apihelper.UtilsApi;
 import com.adhityavenancius.dibantu.MainActivity;
 import com.adhityavenancius.dibantu.Model.HistoryjobsItem;
+import com.adhityavenancius.dibantu.OrderDetailActivity;
 import com.adhityavenancius.dibantu.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -74,9 +75,9 @@ public class HistoryJobsAdapter extends RecyclerView.Adapter<HistoryJobsAdapter.
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
-                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    Intent intent = new Intent(v.getContext(), OrderDetailActivity.class);
 
-                    intent.putExtra("jobs_id",jobs_id.getText() );
+                    intent.putExtra("id_jobs",jobs_id.getText() );
                     v.getContext().startActivity(intent);
                 }
             });

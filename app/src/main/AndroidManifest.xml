@@ -10,7 +10,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +42,8 @@
 
         <activity
             android:name=".InputJobActivity"
-            android:label="@string/title_activity_input_job"></activity>
+            android:label="@string/title_activity_input_job" />
+        <activity android:name=".OrderDetailActivity"></activity>
     </application>
 
 </manifest>

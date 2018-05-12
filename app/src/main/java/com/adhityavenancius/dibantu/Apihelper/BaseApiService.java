@@ -52,6 +52,11 @@ public interface BaseApiService {
     @POST("jobs/getlist")
     Call<ResponseJobs> getJobsRequest(@Field("id_user") String id_user);
 
+    @FormUrlEncoded
+    @POST("jobs/getsingle")
+    Call<ResponseBody> getJobsDetail(@Field("id_jobs") String id_jobs,
+                                     @Field("role") String role);
+
 
 
 
