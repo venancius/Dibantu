@@ -17,10 +17,11 @@ import android.widget.Toast;
 
 import com.adhityavenancius.dibantu.Adapter.ActiveJobsAdapter;
 
+import com.adhityavenancius.dibantu.Adapter.HistoryJobsAdapter;
 import com.adhityavenancius.dibantu.Apihelper.BaseApiService;
 import com.adhityavenancius.dibantu.Apihelper.UtilsApi;
 import com.adhityavenancius.dibantu.Model.ActivejobsItem;
-
+import com.adhityavenancius.dibantu.Model.HistoryjobsItem;
 import com.adhityavenancius.dibantu.Model.ResponseJobs;
 
 import java.util.ArrayList;
@@ -33,9 +34,11 @@ import retrofit2.Response;
 
 public class JobsFragment extends Fragment {
     List<ActivejobsItem> activejobsItemList = new ArrayList<>();
+    List<HistoryjobsItem> historyjobsItemList = new ArrayList<>();
     ActiveJobsAdapter activeJobsAdapter;
+    HistoryJobsAdapter historyJobsAdapter;
     BaseApiService mApiService;
-    RecyclerView rvActiveJobs;
+    RecyclerView rvActiveJobs,rvHistoryJobs;
     ProgressDialog loading;
     TextView tvTaphere;
 
@@ -81,28 +84,24 @@ public class JobsFragment extends Fragment {
         id_user = user.get(SessionManager.KEY_ID);
 
         rvActiveJobs = (RecyclerView) view.findViewById(R.id.rvActiveJobs);
+        rvHistoryJobs = (RecyclerView) view.findViewById(R.id.rvHistoryJobs);
 
         mContext = getActivity();
         mApiService = UtilsApi.getAPIService();
 
         activeJobsAdapter = new ActiveJobsAdapter(mContext, activejobsItemList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        rvActiveJobs.setLayoutManager(mLayoutManager);
+        historyJobsAdapter = new HistoryJobsAdapter(mContext,historyjobsItemList);
+
+        RecyclerView.LayoutManager mLayoutManagerActive = new LinearLayoutManager(mContext);
+        RecyclerView.LayoutManager mLayoutManagerHistory = new LinearLayoutManager(mContext);
+        rvActiveJobs.setLayoutManager(mLayoutManagerActive);
         rvActiveJobs.setItemAnimator(new DefaultItemAnimator());
+        rvHistoryJobs.setLayoutManager(mLayoutManagerHistory);
+        rvHistoryJobs.setItemAnimator(new DefaultItemAnimator());
 
-        getResultListActiveJobs();
+        getResultListJobs();
 
-        tvTaphere = (TextView) view.findViewById(R.id.tvTapHere);
 
-        tvTaphere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, InputJobActivity.class);
-
-                intent.putExtra("category_id", "99");
-                startActivity(intent);
-            }
-        });
 
 
 
@@ -147,19 +146,27 @@ public class JobsFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void getResultListActiveJobs(){
+    private void getResultListJobs(){
         loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
 
-        mApiService.getActiveJobsRequest(id_user).enqueue(new Callback<ResponseJobs>() {
+        mApiService.getJobsRequest(id_user).enqueue(new Callback<ResponseJobs>() {
             @Override
             public void onResponse(Call<ResponseJobs> call, Response<ResponseJobs> response) {
                 if (response.isSuccessful()){
                     loading.dismiss();
-
+                    //Untuk Active Jobs
                     final List<ActivejobsItem> activeJobsItems = response.body().getActivejobs();
 
                     rvActiveJobs.setAdapter(new ActiveJobsAdapter(mContext, activeJobsItems));
                     activeJobsAdapter.notifyDataSetChanged();
+
+                    //Untuk History Jobs
+                    final List<HistoryjobsItem> historyjobsItems = response.body().getHistoryjobs();
+
+                    rvHistoryJobs.setAdapter(new HistoryJobsAdapter(mContext, historyjobsItems));
+                    historyJobsAdapter.notifyDataSetChanged();
+
+
                 } else {
                     loading.dismiss();
                     Toast.makeText(mContext, "Gagal mengambil data dosen", Toast.LENGTH_SHORT).show();
@@ -173,6 +180,10 @@ public class JobsFragment extends Fragment {
             }
         });
     }
+
+
+
+
 
 
 }

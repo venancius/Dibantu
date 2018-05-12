@@ -34,7 +34,7 @@
             android:text="Finished Jobs"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvHistoryJob"
+            android:id="@+id/rvHistoryJobs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
