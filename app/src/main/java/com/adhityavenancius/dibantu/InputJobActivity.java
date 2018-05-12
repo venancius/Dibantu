@@ -9,14 +9,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adhityavenancius.dibantu.Apihelper.BaseApiService;
 import com.adhityavenancius.dibantu.Apihelper.UtilsApi;
+import com.adhityavenancius.dibantu.Model.CitydataItem;
+import com.adhityavenancius.dibantu.Model.ResponseCity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,7 +34,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,7 +47,8 @@ import static com.adhityavenancius.dibantu.SessionManager.KEY_ID;
 
 public class InputJobActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etCity,etLocation, etStartDate, etEndDate, etTime, etFare,etNotes;
+    EditText etLocation, etStartDate, etEndDate, etTime, etFare,etNotes;
+    Spinner spinnerCity;
     TextView tvCategoryId;
     Button btnInputJob;
     ProgressDialog loading;
@@ -64,7 +72,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         id_user = user.get(SessionManager.KEY_ID);
 
         mContext = InputJobActivity.this;
-        etCity = (EditText)findViewById(R.id.etCity);
+        spinnerCity = (Spinner) findViewById(R.id.spinnerCity);
         etLocation = (EditText)findViewById(R.id.etLocation);
         etStartDate = (EditText)findViewById(R.id.etStartDate);
         etEndDate = (EditText)findViewById(R.id.etEndDate);
@@ -83,8 +91,56 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
         Toast.makeText(mContext,id_user ,Toast.LENGTH_SHORT).show();
 
+        initSpinnerCity();
+
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedName = parent.getItemAtPosition(position).toString();
+//                requestDetailDosen(selectedName);
+                Toast.makeText(mContext,selectedName, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
+    private void initSpinnerCity(){
+
+        loading = ProgressDialog.show(mContext, null, "harap tunggu...", true, false);
+
+        mApiService.getCity().enqueue(new Callback<ResponseCity>() {
+            @Override
+            public void onResponse(Call<ResponseCity> call, Response<ResponseCity> response) {
+                if (response.isSuccessful()) {
+                    loading.dismiss();
+                    List<CitydataItem> cityItems = response.body().getCitydata();
+                    List<String> listSpinner = new ArrayList<String>();
+                    for (int i = 0; i < cityItems.size(); i++){
+                        listSpinner.add(cityItems.get(i).getName());
+                    }
+                    // Set hasil result json ke dalam adapter spinner
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,
+                            android.R.layout.simple_spinner_item, listSpinner);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerCity.setAdapter(adapter);
+                } else {
+                    loading.dismiss();
+                    Toast.makeText(mContext, "Gagal mengambil data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseCity> call, Throwable t) {
+                loading.dismiss();
+                Toast.makeText(mContext, "Koneksi internet bermasalah", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public void onClick(View view) {
 
@@ -101,7 +157,9 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
     private void requestInputJob(){
 
-        mApiService.inputJobRequest(id_user,id_worker,tvCategoryId.getText().toString(),etCity.getText().toString(),etStartDate.getText().toString(),etEndDate.getText().toString(),etLocation.getText().toString(),
+        int id_city =spinnerCity.getSelectedItemPosition()+1;
+
+        mApiService.inputJobRequest(id_user,id_worker,tvCategoryId.getText().toString(),id_city,etStartDate.getText().toString(),etEndDate.getText().toString(),etLocation.getText().toString(),
                 etTime.getText().toString(),etFare.getText().toString(),etNotes.getText().toString(),status)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override

@@ -1,6 +1,7 @@
 package com.adhityavenancius.dibantu.Apihelper;
 
 import com.adhityavenancius.dibantu.Model.ResponseCategory;
+import com.adhityavenancius.dibantu.Model.ResponseCity;
 import com.adhityavenancius.dibantu.Model.ResponseJobs;
 
 import okhttp3.ResponseBody;
@@ -33,13 +34,16 @@ public interface BaseApiService {
     @GET("category/getlist")
     Call<ResponseCategory> getAllCategory();
 
+    @GET("city/getlist")
+    Call<ResponseCity> getCity();
+
 
     @FormUrlEncoded
     @POST("jobs/inputjob")
     Call<ResponseBody> inputJobRequest(@Field("id_user") String id_user,
                                     @Field("id_worker") String id_worker,
                                     @Field("id_category") String id_category,
-                                       @Field("id_city") String id_city,
+                                       @Field("id_city") int id_city,
                                        @Field("startdate") String startdate,
                                        @Field("enddate") String enddate,
                                        @Field("location") String location,
