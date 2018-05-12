@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDetailActivity extends AppCompatActivity {
+public class OrderDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
     public TextView tvCategoryname,tvName,tvLocation,tvStartDate,tvEndDate,tvTime,tvFare,tvPhone;
     public EditText etNotes;
@@ -46,6 +46,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     ProgressDialog loading;
     String id_user,role;
     RatingBar ratingBar;
+    Button btnFinish;
 
     Context mContext;
     @Override
@@ -79,6 +80,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         etNotes = (EditText) findViewById(R.id.etNotes);
         imgPicture = (ImageView)findViewById(R.id.imgPicture);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        btnFinish = (Button) findViewById(R.id.btnFinish);
+
+        btnFinish.setOnClickListener(this);
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
@@ -86,6 +90,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id_jobs = intent.getStringExtra("id_jobs");
     }
+
+
 
 
     private void requestOrderDetail(){
@@ -108,6 +114,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     String fare = jsonRESULTS.getJSONObject("jobdata").getString("fare");
                                     String notes = jsonRESULTS.getJSONObject("jobdata").getString("notes");
                                     String rate = jsonRESULTS.getJSONObject("jobdata").getString("rate");
+                                    String id_worker = jsonRESULTS.getJSONObject("jobdata").getString("id_worker");
+                                    String status = jsonRESULTS.getJSONObject("jobdata").getString("status");
                                     //handling force close jika name null
                                     if(!rate.equals("null")) {
                                         Float float_rate = Float.parseFloat(rate);
@@ -131,6 +139,17 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     Glide.with(mContext).load(pictureImageURL).apply(options).into(imgPicture);
 
                                     ratingBar.setEnabled(false);
+                                    if(id_worker.equals("0")){
+                                        btnFinish.setText("Cancel");
+                                    }
+                                    else {
+                                        btnFinish.setText("Finish");
+                                    }
+                                    if(status.equals("1")){
+                                        btnFinish.setVisibility(View.GONE);
+                                    }
+
+
 
                                 } else {
                                     // Jika login gagal
@@ -154,5 +173,55 @@ public class OrderDetailActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.btnFinish:
+                FinishJob();
+                break;
+
+        }
+    }
+
+    private void FinishJob(){
+        mApiService.finishJob(id_jobs)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            loading.dismiss();
+                            try {
+                                JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                                if (jsonRESULTS.getString("error").equals("false")){
+                                    String success_message = jsonRESULTS.getString("message");
+                                    Toast.makeText(mContext, success_message, Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(mContext, MainActivity.class);
+//                                    intent.putExtra("result_nama", nama);
+                                    startActivity(intent);
+
+                                } else {
+                                    // Jika login gagal
+                                    String error_message = jsonRESULTS.getString("message");
+                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            loading.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("debug", "onFailure: ERROR > " + t.toString());
+                        loading.dismiss();
+                    }
+                });
     }
 }

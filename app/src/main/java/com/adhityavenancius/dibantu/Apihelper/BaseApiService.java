@@ -39,6 +39,7 @@ public interface BaseApiService {
     Call<ResponseBody> inputJobRequest(@Field("id_user") String id_user,
                                     @Field("id_worker") String id_worker,
                                     @Field("id_category") String id_category,
+                                       @Field("id_city") String id_city,
                                        @Field("startdate") String startdate,
                                        @Field("enddate") String enddate,
                                        @Field("location") String location,
@@ -56,6 +57,10 @@ public interface BaseApiService {
     @POST("jobs/getsingle")
     Call<ResponseBody> getJobsDetail(@Field("id_jobs") String id_jobs,
                                      @Field("role") String role);
+
+    @FormUrlEncoded
+    @POST("jobs/finishjob")
+    Call<ResponseBody> finishJob(@Field("id_jobs") String id_jobs);
 
 
 

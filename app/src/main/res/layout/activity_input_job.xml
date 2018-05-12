@@ -27,27 +27,32 @@
     </LinearLayout>
 
 
-
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-    />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/map"
         android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/imgCity"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
+
+        <EditText
+            android:id="@+id/etCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgCity"
+            android:hint="City"
+            />
 
         <ImageView
             android:id="@+id/imgLocation"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_below="@id/etCity"
             />
 
         <EditText
@@ -55,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/imgLocation"
+            android:layout_below="@id/etCity"
             android:hint="Location"
             />
 
