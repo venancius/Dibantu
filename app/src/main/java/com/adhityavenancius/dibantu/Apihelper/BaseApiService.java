@@ -4,12 +4,17 @@ import com.adhityavenancius.dibantu.Model.ResponseCategory;
 import com.adhityavenancius.dibantu.Model.ResponseCity;
 import com.adhityavenancius.dibantu.Model.ResponseJobs;
 
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by Adhitya Venancius on 5/8/2018.
@@ -68,8 +73,14 @@ public interface BaseApiService {
                                  @Field("rate") float rate,
                                  @Field("feedback") String feedback);
 
+    @FormUrlEncoded
+    @POST("account/getuserprofile")
+    Call<ResponseBody> getUserProfile(@Field("id_user") String id_user);
 
-
-
+    @Multipart
+    @POST("account/uploadimage")
+    Call<ResponseBody> uploadImage(
+            @Part MultipartBody.Part file,@Part("id") RequestBody id,@Part("role") RequestBody role
+    );
 
 }

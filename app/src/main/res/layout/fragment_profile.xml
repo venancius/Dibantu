@@ -40,9 +40,11 @@
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cardview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -64,6 +66,7 @@
                     android:textColor="#000"
                     android:textSize="20dp"
                     android:fontFamily="sans-serif-condensed"
+                    android:text="Profile"
                     />
 
                 <LinearLayout
@@ -84,6 +87,8 @@
 
                         <TextView
                             android:id="@+id/tvName"
+                            android:background="@null"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="20dp"
@@ -105,7 +110,9 @@
                             android:src="@drawable/tmp_logo" />
 
                         <TextView
+
                             android:id="@+id/tvPhone"
+                            android:background="@null"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="20dp"
@@ -134,7 +141,9 @@
                             android:src="@drawable/tmp_logo" />
 
                         <TextView
-                            android:id="@+id/tvStartDate"
+
+                            android:background="@null"
+                            android:id="@+id/tvEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="20dp"
@@ -156,64 +165,14 @@
                             android:src="@drawable/tmp_logo" />
 
                         <TextView
-                            android:id="@+id/tvTime"
+                            android:editable="false"
+                            android:background="@null"
+                            android:id="@+id/tvIdentityNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:minHeight="20dp"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@id/imgTime"
-                            android:textColor="#000"
-                            android:fontFamily="sans-serif"/>
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/imgEndDate"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
-
-                        <TextView
-                            android:id="@+id/tvEndDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:minHeight="20dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/imgEndDate"
-                            android:textColor="#000"
-                            android:fontFamily="sans-serif"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/imgFare"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
-
-                        <TextView
-                            android:id="@+id/tvFare"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:minHeight="20dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/imgFare"
                             android:textColor="#000"
                             android:fontFamily="sans-serif"/>
                     </RelativeLayout>
@@ -228,33 +187,81 @@
                     android:padding="5dp">
 
                     <ImageView
-                        android:id="@+id/imgLocation"
+                        android:id="@+id/imgCity"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/tmp_logo" />
 
                     <TextView
-                        android:id="@+id/tvLocation"
+                        android:editable="false"
+                        android:background="@null"
+                        android:id="@+id/tvCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="20dp"
                         android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/imgLocation"
+                        android:layout_toRightOf="@id/imgCity"
                         android:textColor="#000"
                         android:fontFamily="sans-serif"/>
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/tvNotes"
+                    <ImageView
+                        android:id="@+id/imgAddress"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/tmp_logo" />
+
+                    <TextView
+                        
+                        
+                        android:id="@+id/tvAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/imgAddress"
+                        android:textColor="#000"
+                        android:fontFamily="sans-serif"/>
+                </RelativeLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="20dp"
-                    android:textColor="#000"
-                    android:fontFamily="sans-serif"/>
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
+                    <Button
+                        android:id="@+id/btnEditProfile"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:textColor="#FFF"
+                        android:background="@color/colorPrimary"
+                        android:text="Edit Profile"/>
+
+                    <Button
+                        android:id="@+id/btnUpload"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:layout_margin="2dp"
+                        android:background="@color/colorPrimary"
+                        android:layout_weight="1"
+                        android:text="Upload Image"/>
+
+
+                </LinearLayout>
 
             </LinearLayout>
+
+
 
         </android.support.v7.widget.CardView>
 
