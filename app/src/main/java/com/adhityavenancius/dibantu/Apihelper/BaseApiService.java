@@ -64,7 +64,9 @@ public interface BaseApiService {
 
     @FormUrlEncoded
     @POST("jobs/finishjob")
-    Call<ResponseBody> finishJob(@Field("id_jobs") String id_jobs);
+    Call<ResponseBody> finishJob(@Field("id_jobs") String id_jobs,
+                                 @Field("rate") float rate,
+                                 @Field("feedback") String feedback);
 
 
 

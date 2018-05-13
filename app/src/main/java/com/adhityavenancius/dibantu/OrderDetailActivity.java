@@ -22,6 +22,7 @@ import com.adhityavenancius.dibantu.Apihelper.BaseApiService;
 import com.adhityavenancius.dibantu.Apihelper.UtilsApi;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.codemybrainsout.ratingdialog.RatingDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +37,7 @@ import retrofit2.Response;
 
 public class OrderDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public TextView tvCategoryname,tvName,tvLocation,tvStartDate,tvEndDate,tvTime,tvFare,tvPhone;
-    public EditText etNotes;
+    public TextView tvCategoryname,tvName,tvLocation,tvStartDate,tvEndDate,tvTime,tvFare,tvPhone,tvNotes;
     public ImageView imgPicture;
     String pictureImageURL;
     String id_jobs;
@@ -48,6 +48,8 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
     RatingBar ratingBar;
     Button btnFinish;
 
+    float tmp_rating;
+    String tmp_feedback;
     Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
         tvTime = (TextView)findViewById(R.id.tvTime);
         tvFare = (TextView)findViewById(R.id.tvFare);
         tvPhone = (TextView)findViewById(R.id.tvPhone);
-        etNotes = (EditText) findViewById(R.id.etNotes);
+        tvNotes = (TextView) findViewById(R.id.tvNotes);
         imgPicture = (ImageView)findViewById(R.id.imgPicture);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         btnFinish = (Button) findViewById(R.id.btnFinish);
@@ -89,6 +91,8 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
 
         Intent intent = getIntent();
         id_jobs = intent.getStringExtra("id_jobs");
+
+
     }
 
 
@@ -130,10 +134,10 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                                     tvLocation.setText(location);
                                     tvTime.setText(time);
                                     tvFare.setText(fare);
-                                    etNotes.setText(notes);
+                                    tvNotes.setText(notes);
                                     pictureImageURL = UtilsApi.UPLOAD_URL + jsonRESULTS.getJSONObject("jobdata").getString("picture");
                                     RequestOptions options = new RequestOptions()
-                                            .centerCrop()
+                                            .centerCrop().circleCrop()
                                             .placeholder(R.mipmap.ic_launcher_round)
                                             .error(R.mipmap.ic_launcher_round);
                                     Glide.with(mContext).load(pictureImageURL).apply(options).into(imgPicture);
@@ -179,14 +183,43 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.btnFinish:
-                FinishJob();
+
+
+                //kondisi kalau text di button Finished baru ke rateActivity
+                String btnText = btnFinish.getText().toString();
+                if(btnText.equals("Finish")){
+
+                    final RatingDialog ratingDialog = new RatingDialog.Builder(this)
+                            .threshold(6)
+                            .title("Rate the worker")
+                            .onRatingChanged(new RatingDialog.Builder.RatingDialogListener() {
+                                @Override
+                                public void onRatingSelected(float rating, boolean thresholdCleared) {
+                                    tmp_rating = rating;
+                                }
+                            })
+                            .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                                @Override
+                                public void onFormSubmitted(String feedback) {
+                                    tmp_feedback = feedback;
+                                    FinishJob();
+                                }
+                            }).build();
+
+                    ratingDialog.show();
+                }
+                else if(btnText.equals("Cancel")){
+                    tmp_rating = 0;
+                    tmp_feedback = "";
+                    FinishJob();
+                }
                 break;
 
         }
     }
 
     private void FinishJob(){
-        mApiService.finishJob(id_jobs)
+        mApiService.finishJob(id_jobs,tmp_rating,tmp_feedback)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
