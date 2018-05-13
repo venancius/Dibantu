@@ -77,6 +77,11 @@ public interface BaseApiService {
     @POST("account/getuserprofile")
     Call<ResponseBody> getUserProfile(@Field("id_user") String id_user);
 
+    @FormUrlEncoded
+    @POST("account/setuserprofile")
+    Call<ResponseBody> setUserProfile(@Field("id") String id_user,@Field("name") String name,
+                                      @Field("phone") String phone,@Field("email") String email);
+
     @Multipart
     @POST("account/uploadimage")
     Call<ResponseBody> uploadImage(

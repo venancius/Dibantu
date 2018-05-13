@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7C56C0"
+    android:background="@color/colorPrimaryDark"
     tools:context="com.adhityavenancius.dibantu.LoginActivity">
 
 
@@ -12,16 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:padding="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="24sp"
-            android:textColor="#fff"
-            android:fontFamily="sans-serif"
-            android:text="LOGIN"/>
+            android:textColorHint="#FFF">
 
         <EditText
             android:id="@+id/etEmail"
@@ -29,23 +27,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:textColorHint="#80FFFFFF"
             android:padding="8dp"
             android:inputType="textEmailAddress"
-            android:background="#7C56C0"
-            android:textColor="#80FFFFFF"/>
+            android:fontFamily="sans-serif"
+            android:textColor="#FFF"/>
+        </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFF">
         <EditText
             android:id="@+id/etPassword"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:textColorHint="#80FFFFFF"
+            android:textColorHint="#FFF"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:background="#7C56C0"
-            android:textColor="#80FFFFFF"/>
+
+            android:fontFamily="sans-serif"
+            android:textColor="#FFF"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/btnLogin"
@@ -54,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFF"
             android:text="LOG IN"
-            android:background="#7C56C0"
+            android:background="@color/colorPrimary"
             />
 
         <TextView
@@ -62,18 +68,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFF"
-            android:fontFamily="cursive"
             android:text="OR"
             android:layout_gravity="center"/>
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FFF"
-            android:text="REGISTER"
-            android:background="#7C56C0"
-            />
     </LinearLayout>
+
 </RelativeLayout>

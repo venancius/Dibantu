@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -147,7 +148,7 @@ public class JobsFragment extends Fragment {
     }
 
     private void getResultListJobs(){
-        loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
 
         mApiService.getJobsRequest(id_user).enqueue(new Callback<ResponseJobs>() {
             @Override
@@ -169,14 +170,14 @@ public class JobsFragment extends Fragment {
 
                 } else {
                     loading.dismiss();
-                    Toast.makeText(mContext, "Gagal mengambil data dosen", Toast.LENGTH_SHORT).show();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseJobs> call, Throwable t) {
                 loading.dismiss();
-                Toast.makeText(mContext, "Koneksi Internet Bermasalah", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
             }
         });
     }

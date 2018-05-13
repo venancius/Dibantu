@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +71,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void initComponents(){
-        loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
         tvCategoryname = (TextView)findViewById(R.id.tvCategoryname);
         tvName = (TextView)findViewById(R.id.tvName);
         tvLocation = (TextView)findViewById(R.id.tvLocation);
@@ -158,7 +159,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                                 } else {
                                     // Jika login gagal
                                     String error_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -229,7 +230,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                                 JSONObject jsonRESULTS = new JSONObject(response.body().string());
                                 if (jsonRESULTS.getString("error").equals("false")){
                                     String success_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext, success_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.success(mContext, success_message, Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(mContext, MainActivity.class);
 //                                    intent.putExtra("result_nama", nama);
@@ -238,7 +239,7 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                                 } else {
                                     // Jika login gagal
                                     String error_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

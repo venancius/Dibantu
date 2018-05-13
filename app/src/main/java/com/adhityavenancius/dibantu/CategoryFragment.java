@@ -26,6 +26,7 @@ import com.adhityavenancius.dibantu.Model.ResponseCategory;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -150,7 +151,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void getResultListCategory(){
-        loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
 
         mApiService.getAllCategory().enqueue(new Callback<ResponseCategory>() {
             @Override
@@ -164,14 +165,14 @@ public class CategoryFragment extends Fragment {
                     categoryAdapter.notifyDataSetChanged();
                 } else {
                     loading.dismiss();
-                    Toast.makeText(mContext, "Gagal mengambil data dosen", Toast.LENGTH_SHORT).show();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseCategory> call, Throwable t) {
                 loading.dismiss();
-                Toast.makeText(mContext, "Koneksi Internet Bermasalah", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
             }
         });
     }

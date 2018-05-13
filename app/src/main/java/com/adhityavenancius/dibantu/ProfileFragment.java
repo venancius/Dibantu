@@ -20,10 +20,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.adhityavenancius.dibantu.Adapter.ActiveJobsAdapter;
 import com.adhityavenancius.dibantu.Adapter.HistoryJobsAdapter;
@@ -44,6 +48,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -84,16 +89,16 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     SessionManager session;
-    String id_user,role_user;
+    String id_user,role_user,tmp_name,tmp_email,tmp_phone;
     Context mContext;
     BaseApiService mApiService;
     ProgressDialog loading;
-    public TextView tvName,tvAddress,tvIdentityNo,tvCity,tvEmail,tvPhone;
+    public TextView tvName,tvAddress,tvIdentityNo,tvCity,tvEmail,tvPhone,tvLogout;
     public ImageView imgPicture;
     String pictureImageURL;
-
-    Button btnUpload,btnEditProfile;
-
+    private ViewSwitcher cardViewSwitcher;
+    Button btnUpload,btnEditProfile,btnSaveProfile,btnCancel;
+    public EditText etName,etEmail,etPhone;
     private OnFragmentInteractionListener mListener;
 
     public ProfileFragment() {
@@ -141,7 +146,20 @@ public class ProfileFragment extends Fragment {
         tvIdentityNo = (TextView)view.findViewById(R.id.tvIdentityNo);
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
         imgPicture = (ImageView)view.findViewById(R.id.imgPicture);
-        
+
+        //viewswitcher
+        cardViewSwitcher = (ViewSwitcher)view.findViewById(R.id.cardViewSwitcher);
+        //animation untuk viewswitcher
+        Animation in = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right);
+        //set animasi ke viewswitcher
+        cardViewSwitcher.setInAnimation(in);
+        cardViewSwitcher.setOutAnimation(out);
+        //edittext di bind di viewswitcher
+        etName = (EditText)cardViewSwitcher.findViewById(R.id.etName);
+        etPhone = (EditText)cardViewSwitcher.findViewById(R.id.etPhone);
+        etEmail = (EditText)cardViewSwitcher.findViewById(R.id.etEmail);
+
         session = new SessionManager(getActivity());
         HashMap<String, String> user = session.getUserDetails();
         // obtain id
@@ -151,8 +169,18 @@ public class ProfileFragment extends Fragment {
         mContext = getActivity();
         mApiService = UtilsApi.getAPIService();
 
-        Button btnUpload = (Button)view.findViewById(R.id.btnUpload);
-        Button btnEditProfile = (Button)view.findViewById(R.id.btnEditProfile);
+        btnUpload = (Button)view.findViewById(R.id.btnUpload);
+        btnEditProfile = (Button)view.findViewById(R.id.btnEditProfile);
+        btnSaveProfile = (Button)view.findViewById(R.id.btnSaveProfile);
+        btnCancel = (Button)view.findViewById(R.id.btnCancel);
+        tvLogout = (TextView)view.findViewById(R.id.tvLogout);
+
+        tvLogout.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                session.logoutUser();
+                getActivity().finish();
+            }
+        });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -160,7 +188,35 @@ public class ProfileFragment extends Fragment {
                 showFileChooser();
             }
         });
-        
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                cardViewSwitcher.showNext();
+
+            }
+        });
+
+        btnSaveProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                tmp_name = etName.getText().toString();
+                tmp_phone = etPhone.getText().toString();
+                tmp_email = etEmail.getText().toString();
+
+                setUserProfile(id_user,tmp_name,tmp_phone,tmp_email);
+                cardViewSwitcher.showNext();
+
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                cardViewSwitcher.showNext();
+            }
+        });
+
+
+
         
         getUserProfile();
         
@@ -219,7 +275,7 @@ public class ProfileFragment extends Fragment {
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, id_user);
 
-        loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
 
         mApiService.uploadImage(body,id,role).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -232,7 +288,7 @@ public class ProfileFragment extends Fragment {
                         if (jsonRESULTS.getString("error").equals("false")){
 
 //                            String upload_data = jsonRESULTS.getString("upload_data");
-                            Toast.makeText(mContext, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                            Toasty.success(mContext, "Image Uploaded", Toast.LENGTH_SHORT).show();
                             getUserProfile();
 
                         } else {
@@ -247,14 +303,14 @@ public class ProfileFragment extends Fragment {
                     }
                 } else {
                     loading.dismiss();
-                    Toast.makeText(mContext, "Gagal mengambil data dosen", Toast.LENGTH_SHORT).show();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 loading.dismiss();
-                Toast.makeText(mContext, "Koneksi Internet Bermasalah", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -311,7 +367,7 @@ public class ProfileFragment extends Fragment {
     }
     
     private void getUserProfile(){
-        loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
 
         mApiService.getUserProfile(id_user).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -341,6 +397,9 @@ public class ProfileFragment extends Fragment {
                             tvIdentityNo.setText(identityno);
                             tvAddress.setText(address);
 
+                            etName.setText(name, TextView.BufferType.EDITABLE);
+                            etPhone.setText(phone, TextView.BufferType.EDITABLE);
+                            etEmail.setText(email, TextView.BufferType.EDITABLE);
 
                             pictureImageURL = UtilsApi.UPLOAD_URL + picture ;
                             RequestOptions options = new RequestOptions()
@@ -353,7 +412,7 @@ public class ProfileFragment extends Fragment {
                         } else {
                             // Jika login gagal
                             String error_message = jsonRESULTS.getString("message");
-                            Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                            Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -362,14 +421,14 @@ public class ProfileFragment extends Fragment {
                     }
                 } else {
                     loading.dismiss();
-                    Toast.makeText(mContext, "Gagal mengambil data dosen", Toast.LENGTH_SHORT).show();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 loading.dismiss();
-                Toast.makeText(mContext, "Koneksi Internet Bermasalah", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -399,12 +458,52 @@ public class ProfileFragment extends Fragment {
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
-                Toast.makeText(getActivity(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+                Toasty.success(getActivity(), "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
             } else {
                 //Displaying another toast if permission is not granted
-                Toast.makeText(getActivity(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+                Toasty.error(getActivity(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void setUserProfile(String id,String name,String phone,String email){
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
+
+        mApiService.setUserProfile(id,name,phone,email).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+
+                    loading.dismiss();
+                    try {
+                        JSONObject jsonRESULTS = new JSONObject(response.body().string());
+                        if (jsonRESULTS.getString("error").equals("false")){
+
+                            String message = jsonRESULTS.getString("message");
+                            Toasty.success(mContext, message, Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            // Jika login gagal
+                            String error_message = jsonRESULTS.getString("message");
+                            Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    loading.dismiss();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                loading.dismiss();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     
 }

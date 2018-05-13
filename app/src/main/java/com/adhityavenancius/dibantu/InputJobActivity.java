@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,7 +90,6 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         tvCategoryId.setText(intent.getStringExtra("category_id"));
 
-        Toast.makeText(mContext,id_user ,Toast.LENGTH_SHORT).show();
 
         initSpinnerCity();
 
@@ -98,7 +98,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedName = parent.getItemAtPosition(position).toString();
 //                requestDetailDosen(selectedName);
-                Toast.makeText(mContext,selectedName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext,selectedName, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -111,7 +111,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
     private void initSpinnerCity(){
 
-        loading = ProgressDialog.show(mContext, null, "harap tunggu...", true, false);
+        loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
 
         mApiService.getCity().enqueue(new Callback<ResponseCity>() {
             @Override
@@ -130,14 +130,14 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
                     spinnerCity.setAdapter(adapter);
                 } else {
                     loading.dismiss();
-                    Toast.makeText(mContext, "Gagal mengambil data", Toast.LENGTH_SHORT).show();
+                    Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseCity> call, Throwable t) {
                 loading.dismiss();
-                Toast.makeText(mContext, "Koneksi internet bermasalah", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "No Connection", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -146,7 +146,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
         switch(view.getId()){
             case R.id.btnInputJob:
-                loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+                loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
                 requestInputJob();
                 break;
 
@@ -172,7 +172,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
                                     // Jika login berhasil maka data nama yang ada di response API
                                     // akan diparsing ke activity selanjutnya.
                                     String success_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext,success_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.success(mContext,success_message, Toast.LENGTH_SHORT).show();
 //                                    String nama = jsonRESULTS.getJSONObject("user").getString("nama");
                                     Intent intent = new Intent(mContext, MainActivity.class);
 //                                    intent.putExtra("result_nama", nama);
@@ -181,7 +181,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
                                 } else {
                                     // Jika login gagal
                                     String error_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

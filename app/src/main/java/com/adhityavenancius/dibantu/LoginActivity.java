@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,22 +53,16 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loading = ProgressDialog.show(mContext, null, "Harap Tunggu...", true, false);
+                loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
                 requestLogin();
             }
         });
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(mContext, RegisterActivity.class));
-            }
-        });
     }
 
     private void requestLogin(){
@@ -87,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // Jika login berhasil maka data nama yang ada di response API
                                     // akan diparsing ke activity selanjutnya.
                                     String success_message = jsonRESULTS.getString("message")+" as "+name;
-                                    Toast.makeText(mContext,success_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.success(mContext,success_message, Toast.LENGTH_SHORT).show();
 //                                    String nama = jsonRESULTS.getJSONObject("user").getString("nama");
                                     Intent intent = new Intent(mContext, MainActivity.class);
 //                                    intent.putExtra("result_nama", nama);
@@ -96,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // Jika login gagal
                                     String error_message = jsonRESULTS.getString("message");
-                                    Toast.makeText(mContext, error_message, Toast.LENGTH_SHORT).show();
+                                    Toasty.error(mContext, error_message, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
