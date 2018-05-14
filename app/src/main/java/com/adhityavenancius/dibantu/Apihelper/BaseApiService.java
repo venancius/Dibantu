@@ -60,6 +60,7 @@ public interface BaseApiService {
                                        @Field("enddate") String enddate,
                                        @Field("location") String location,
                                        @Field("time") String time,
+                                       @Field("endtime") String endtime,
                                        @Field("fare") String fare,
                                        @Field("notes") String notes,
                                        @Field("status") String status

@@ -2,6 +2,7 @@ package com.adhityavenancius.dibantu;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.NumberFormat;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.adhityavenancius.dibantu.Apihelper.BaseApiService;
@@ -55,7 +57,7 @@ import static java.lang.Integer.parseInt;
 
 public class InputJobActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etLocation, etStartDate, etEndDate, etTime, etFare,etNotes;
+    EditText etLocation, etStartDate, etEndDate, etTime,etEndTime, etFare,etNotes;
     Spinner spinnerCity;
     TextView tvCategoryId;
     Button btnInputJob;
@@ -96,6 +98,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         etStartDate = (EditText)findViewById(R.id.etStartDate);
         etEndDate = (EditText)findViewById(R.id.etEndDate);
         etTime = (EditText)findViewById(R.id.etTime);
+        etEndTime = (EditText)findViewById(R.id.etEndTime);
         etFare = (EditText)findViewById(R.id.etFare);
         etNotes = (EditText)findViewById(R.id.etNotes);
         myCalendar = Calendar.getInstance();
@@ -108,6 +111,49 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
         Intent intent = getIntent();
         tvCategoryId.setText(intent.getStringExtra("category_id"));
+
+        etTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(InputJobActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        etTime.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        etEndTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(InputJobActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        etEndTime.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
 
         etLocation.setText(user_address);
         initSpinnerCity();
@@ -265,7 +311,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         String fare = reverseFormat(etFare.getText().toString());
 
         mApiService.inputJobRequest(id_user,id_worker,tvCategoryId.getText().toString(),id_city,etStartDate.getText().toString(),etEndDate.getText().toString(),etLocation.getText().toString(),
-                etTime.getText().toString(),fare,etNotes.getText().toString(),status)
+                etTime.getText().toString(),etEndTime.getText().toString(),fare,etNotes.getText().toString(),status)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
