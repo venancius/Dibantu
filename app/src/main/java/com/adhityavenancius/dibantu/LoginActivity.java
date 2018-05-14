@@ -190,8 +190,8 @@ public class LoginActivity extends AppCompatActivity {
     private void requestRegister(){
         int id_city = spinnerCity.getSelectedItemPosition()+1;
 
-        mApiService.registerRequest(etName.getText().toString(),etEmail.getText().toString(), etPassword.getText().toString(),
-                etPassword.getText().toString(),id_city, etAddress.getText().toString(),role)
+        mApiService.registerRequest(etName.getText().toString(),etEmail1.getText().toString(), etPhone.getText().toString(),
+                etPassword1.getText().toString(),id_city, etAddress.getText().toString(),role)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +48,8 @@ import java.util.List;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,9 +79,20 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
     private Context mContext;
 
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("http://192.168.1.101:3000");
+        } catch (URISyntaxException e) {}
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //init socket
+        mSocket.connect();
+
         setContentView(R.layout.activity_input_job);
         // get user data from session
         session = new SessionManager(getApplicationContext());
@@ -324,6 +338,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
                                     // akan diparsing ke activity selanjutnya.
                                     String success_message = jsonRESULTS.getString("message");
                                     Toasty.success(mContext,success_message, Toast.LENGTH_SHORT).show();
+                                    mSocket.emit("new job");
 //                                    String nama = jsonRESULTS.getJSONObject("user").getString("nama");
                                     Intent intent = new Intent(mContext, MainActivity.class);
 //                                    intent.putExtra("result_nama", nama);
