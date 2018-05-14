@@ -34,6 +34,8 @@ public class SessionManager {
     public static final String KEY_ID = "id";
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "name";
+    public static final String KEY_CITY = "city";
+    public static final String KEY_ADDRESS = "address";
 
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
@@ -49,16 +51,19 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String id,String name, String email,String role){
+    public void createLoginSession(String id,String name, String email,String role,String id_city,String address){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_ID, id);
+
         // Storing name in pref
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_ROLE, role);
 
         // Storing email in pref
         editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_CITY, id_city);
+        editor.putString(KEY_ADDRESS, address);
 
         // commit changes
         editor.commit();
@@ -100,6 +105,8 @@ public class SessionManager {
 
         // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_CITY, pref.getString(KEY_CITY, null));
+        user.put(KEY_ADDRESS, pref.getString(KEY_ADDRESS, null));
 
         // return user
         return user;

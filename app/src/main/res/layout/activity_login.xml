@@ -6,6 +6,11 @@
     android:background="@color/colorPrimaryDark"
     tools:context="com.adhityavenancius.dibantu.LoginActivity">
 
+<ViewSwitcher
+    android:id="@+id/loginSwitcher"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,22 +20,28 @@
         android:orientation="vertical"
         android:id="@+id/linearLayout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:src="@drawable/tmp_logo"
+            android:layout_margin="20dp"/>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#FFF">
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:padding="8dp"
-            android:inputType="textEmailAddress"
-            android:fontFamily="sans-serif"
-            android:textColor="#FFF"/>
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:padding="8dp"
+                android:inputType="textEmailAddress"
+                android:fontFamily="sans-serif"
+                android:textColor="#FFF"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -38,18 +49,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#FFF">
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:textColorHint="#FFF"
-            android:inputType="textPassword"
-            android:padding="8dp"
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:textColorHint="#FFF"
+                android:inputType="textPassword"
+                android:padding="8dp"
 
-            android:fontFamily="sans-serif"
-            android:textColor="#FFF"/>
+                android:fontFamily="sans-serif"
+                android:textColor="#FFF"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -63,13 +74,170 @@
             android:background="@color/colorPrimary"
             />
 
-        <TextView
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/imgName"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/tmp_logo"
+            android:layout_marginBottom="15dp"
+            />
+
+        <EditText
+            android:layout_toRightOf="@+id/imgName"
+            android:id="@+id/etName"
+            android:inputType="textPersonName"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="Name"
+            android:textColorHint="#FFF"
+            android:textColor="#FFF"/>
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgPhone"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/imgName"
+            />
+
+        <EditText
+            android:layout_below="@id/imgName"
+            android:layout_toRightOf="@id/imgPhone"
+            android:id="@+id/etPhone"
+            android:inputType="phone"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone"
+            android:textColorHint="#FFF"
+            android:textColor="#FFF"/>
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgEmail"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/imgPhone"
+            />
+
+        <EditText
+            android:layout_below="@id/imgPhone"
+            android:id="@+id/etEmail1"
+            android:inputType="textEmailAddress"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:layout_toRightOf="@id/imgEmail"
+            android:textColorHint="#FFF"
+            android:textColor="#FFF"/>
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgCity"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/imgEmail"
+            />
+
+        <Spinner
+            android:layout_below="@id/imgEmail"
+            android:id="@+id/spinnerCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgCity"></Spinner>
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgAddress"
+            android:layout_below="@id/imgCity"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
+
+        <EditText
+            android:layout_below="@id/imgCity"
+            android:layout_toRightOf="@id/imgAddress"
+            android:textColorHint="#FFF"
+            android:id="@+id/etAddress"
+            android:inputType="textPostalAddress"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:textColor="#FFF"/>
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgPassword"
+            android:layout_below="@id/imgAddress"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
+        <EditText
+            android:layout_toRightOf="@id/imgPassword"
+            android:layout_below="@id/imgAddress"
+            android:textColorHint="#FFF"
+            android:id="@+id/etPassword1"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:textColor="#FFF"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/imgPassword"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFF"
-            android:text="OR"
-            android:layout_gravity="center"/>
+            android:text="REGISTER"
+            android:background="@color/colorPrimary"
+            />
+
+
+    </RelativeLayout>
+
+</ViewSwitcher>
+
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Dont have an account? Sign Up"
+            android:textColor="@color/grey_200"
+
+            android:onClick="onClick"/>
 
     </LinearLayout>
 

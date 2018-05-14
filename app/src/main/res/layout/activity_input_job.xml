@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     tools:context="com.adhityavenancius.dibantu.InputJobActivity"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCategoryId"
+        android:visibility="gone"/>
+
 
     <LinearLayout
         android:id="@+id/footer"
@@ -29,10 +35,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
 
         <ImageView
+            android:layout_marginBottom="15dp"
             android:id="@+id/imgCity"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
@@ -43,103 +50,138 @@
             android:id="@+id/spinnerCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imgCity"
-
-            />
+            android:layout_toRightOf="@id/imgCity"></Spinner>
 
         <ImageView
             android:id="@+id/imgLocation"
-            android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:src="@drawable/tmp_logo"
+            android:layout_marginBottom="15dp"
             android:layout_below="@id/imgCity"
             />
 
         <EditText
+            android:layout_toRightOf="@+id/imgLocation"
             android:id="@+id/etLocation"
+            android:layout_below="@id/imgCity"
+            android:inputType="textPostalAddress"
+            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/imgLocation"
-            android:layout_below="@id/imgCity"
-            android:hint="Location"
+
+            android:hint="Address"
+            
             />
 
         <ImageView
+            android:layout_marginBottom="15dp"
             android:id="@+id/imgStartDate"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@id/etLocation"
+            android:layout_below="@id/imgLocation"
             />
 
         <EditText
+            android:layout_below="@id/imgLocation"
+            android:layout_toRightOf="@id/imgStartDate"
             android:id="@+id/etStartDate"
+            android:inputType="date"
+            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etLocation"
-            android:layout_toRightOf="@id/imgStartDate"
-            android:hint="Start Date"/>
-
+            android:clickable="true"
+            android:editable="false"
+            android:focusable="false"
+            android:hint="Start Date"
+            
+            />
 
         <ImageView
+            android:layout_marginBottom="15dp"
             android:id="@+id/imgEndDate"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@id/etStartDate"
+            android:layout_below="@id/imgStartDate"
             />
 
         <EditText
+            android:layout_below="@id/imgStartDate"
             android:id="@+id/etEndDate"
+            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etStartDate"
+            android:hint="End Date"
+            android:inputType="date"
+            android:clickable="true"
+            android:editable="false"
+            android:focusable="false"
             android:layout_toRightOf="@id/imgEndDate"
-            android:hint="End Date"/>
+            
+            />
+
+
+
         <ImageView
+            android:layout_marginBottom="15dp"
             android:id="@+id/imgTime"
+            android:layout_below="@id/imgEndDate"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@id/etEndDate"
             />
 
         <EditText
-            android:id="@+id/etTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etEndDate"
+            android:layout_below="@id/imgEndDate"
             android:layout_toRightOf="@id/imgTime"
-            android:hint="Time"/>
+            
+            android:id="@+id/etTime"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Time"
+            />
+
         <ImageView
+            android:layout_marginBottom="15dp"
             android:id="@+id/imgFare"
+            android:layout_below="@id/imgTime"
             android:src="@drawable/tmp_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@id/etTime"
             />
-
-        <EditText
-            android:id="@+id/etFare"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etTime"
+        <com.aldoapps.autoformatedittext.AutoFormatEditText
             android:layout_toRightOf="@id/imgFare"
-            android:hint="Fare"/>
+            android:layout_below="@id/imgTime"
+            
+            android:id="@+id/etFare"
 
+            android:hint="Fare"
+            android:fontFamily="sans-serif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginBottom="15dp"
+            android:id="@+id/imgNotes"
+            android:layout_below="@id/imgFare"
+            android:src="@drawable/tmp_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
         <EditText
-            android:id="@+id/etNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/etFare"
-            android:hint="Notes"
-            android:minLines="3"/>
+            android:layout_toRightOf="@id/imgNotes"
+            android:layout_below="@id/imgFare"
 
-        <TextView
-            android:id="@+id/tvCategoryId"
+            android:id="@+id/etNotes"
+
+            android:hint="Notes"
+            android:minLines="3"
+            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:layout_height="wrap_content" />
 
 
 

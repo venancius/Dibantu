@@ -244,14 +244,30 @@
                         android:fontFamily="sans-serif"/>
                 </RelativeLayout>
 
-
-                <TextView
-                    android:id="@+id/tvNotes"
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="20dp"
-                    android:textColor="#000"
-                    android:fontFamily="sans-serif"/>
+                    android:layout_weight="1"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/imgNotes"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/tmp_logo" />
+
+                    <TextView
+                        android:id="@+id/tvNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/imgNotes"
+                        android:textColor="#000"
+                        android:fontFamily="sans-serif"/>
+
+                </RelativeLayout>
+
 
 
             </LinearLayout>

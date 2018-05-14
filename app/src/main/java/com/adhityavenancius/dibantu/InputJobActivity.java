@@ -1,8 +1,10 @@
 package com.adhityavenancius.dibantu;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.NumberFormat;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -34,9 +37,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
@@ -45,6 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.adhityavenancius.dibantu.SessionManager.KEY_ID;
+import static java.lang.Integer.parseInt;
 
 public class InputJobActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,10 +62,15 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
     ProgressDialog loading;
     BaseApiService mApiService;
     SessionManager session;
-    String id_user;
+    String id_user,user_address,user_city;
+
     String id_worker="0";
     String status="0";
+    String str_startdate="startdate";
+    String str_enddate="enddate";
+    Calendar myCalendar;
 
+    Integer cityspinnerselected;
 
     private Context mContext;
 
@@ -71,6 +83,12 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         HashMap<String, String> user = session.getUserDetails();
         // obtain id
         id_user = user.get(SessionManager.KEY_ID);
+        user_address = user.get(SessionManager.KEY_ADDRESS);
+        user_city = (user.get(SessionManager.KEY_CITY));
+
+
+        // -1 karena arraylist dari 0, sedangkan id city di db dari 1
+        cityspinnerselected = parseInt(user_city)-1;
 
         mContext = InputJobActivity.this;
         spinnerCity = (Spinner) findViewById(R.id.spinnerCity);
@@ -80,6 +98,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         etTime = (EditText)findViewById(R.id.etTime);
         etFare = (EditText)findViewById(R.id.etFare);
         etNotes = (EditText)findViewById(R.id.etNotes);
+        myCalendar = Calendar.getInstance();
 
         tvCategoryId = (TextView)findViewById(R.id.tvCategoryId);
         btnInputJob = (Button)findViewById(R.id.btnInputJob);
@@ -90,7 +109,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         tvCategoryId.setText(intent.getStringExtra("category_id"));
 
-
+        etLocation.setText(user_address);
         initSpinnerCity();
 
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -107,6 +126,79 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        final DatePickerDialog.OnDateSetListener startdate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(str_startdate);
+            }
+
+        };
+
+        final DatePickerDialog.OnDateSetListener enddate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(str_enddate);
+            }
+
+        };
+
+        etStartDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(mContext, startdate, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        etEndDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(mContext, enddate, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
+
+    }
+
+    private void updateLabel(String whichdate) {
+        String myFormat = "yyyy/MM/dd"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        switch (whichdate){
+            case "startdate": etStartDate.setText(sdf.format(myCalendar.getTime()));
+                              break;
+            case "enddate": etEndDate.setText(sdf.format(myCalendar.getTime()));
+                            break;
+        }
+
+    }
+
+    private boolean formValidation(){
+        if( etLocation.getText().toString().trim().equals("") || etStartDate.getText().toString().trim().equals("") || etEndDate.getText().toString().trim().equals("") ||
+                etTime.getText().toString().trim().equals("") || etFare.getText().toString().trim().equals(""))
+        {
+            return false;
+        } else { return true; }
     }
 
     private void initSpinnerCity(){
@@ -128,6 +220,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
                             android.R.layout.simple_spinner_item, listSpinner);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerCity.setAdapter(adapter);
+                    spinnerCity.setSelection(cityspinnerselected);
                 } else {
                     loading.dismiss();
                     Toasty.error(mContext, "Request Failed", Toast.LENGTH_SHORT).show();
@@ -146,8 +239,14 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
         switch(view.getId()){
             case R.id.btnInputJob:
-                loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
-                requestInputJob();
+                if(formValidation()==true){
+                    loading = ProgressDialog.show(mContext, null, "Processing Request..", true, false);
+                    requestInputJob();
+                }
+                else{
+                    Toasty.error(mContext,"Please fill in required fields",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
 
@@ -155,12 +254,18 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    private String reverseFormat(String formatted_string){
+        String newStr = formatted_string.replaceAll("[,]", "");
+        return newStr;
+    }
+
     private void requestInputJob(){
 
         int id_city =spinnerCity.getSelectedItemPosition()+1;
+        String fare = reverseFormat(etFare.getText().toString());
 
         mApiService.inputJobRequest(id_user,id_worker,tvCategoryId.getText().toString(),id_city,etStartDate.getText().toString(),etEndDate.getText().toString(),etLocation.getText().toString(),
-                etTime.getText().toString(),etFare.getText().toString(),etNotes.getText().toString(),status)
+                etTime.getText().toString(),fare,etNotes.getText().toString(),status)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

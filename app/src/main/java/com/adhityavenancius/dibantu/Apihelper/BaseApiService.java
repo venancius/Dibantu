@@ -28,6 +28,13 @@ public interface BaseApiService {
                                     @Field("password") String password,
                                     @Field("role") String user);
 
+    @FormUrlEncoded
+    @POST("auth/register")
+    Call<ResponseBody> registerRequest(@Field("name") String name,@Field("email") String email,
+                                       @Field("phone") String phone,@Field("password") String password,
+                                       @Field("id_city") int id_city,@Field("address") String address,
+                                    @Field("role") String role);
+
 
     @FormUrlEncoded
     @POST("auth/register")
