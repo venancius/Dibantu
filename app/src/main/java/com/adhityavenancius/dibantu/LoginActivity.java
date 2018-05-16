@@ -65,6 +65,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         session = new SessionManager(getApplicationContext());
+        boolean loginstatus = session.checkLogin();
+        if(loginstatus==true){
+            finish();
+        }
 
         mContext = this;
         mApiService = UtilsApi.getAPIService(); // meng-init yang ada di package apihelper
@@ -255,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
                                     session.createLoginSession(id,name, email,role,id_city,address);
                                     // Jika login berhasil maka data nama yang ada di response API
                                     // akan diparsing ke activity selanjutnya.
-                                    String success_message = jsonRESULTS.getString("message")+" as "+id_city;
+                                    String success_message = jsonRESULTS.getString("message")+" as "+name;
                                     Toasty.success(mContext,success_message, Toast.LENGTH_SHORT).show();
 //                                    String nama = jsonRESULTS.getJSONObject("user").getString("nama");
                                     Intent intent = new Intent(mContext, MainActivity.class);

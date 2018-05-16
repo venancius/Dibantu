@@ -31,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         session = new SessionManager(getApplicationContext());
-        session.checkLogin();
+        boolean loginstatus = session.checkLogin();
+        if(loginstatus==false){
+            finish();
+        }
 
         toolbar = getSupportActionBar();
         // load the store fragment by default

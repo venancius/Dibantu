@@ -41,12 +41,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            />
 
         <ViewSwitcher
             android:id="@+id/cardViewSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingBar">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview1"
@@ -54,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 app:cardElevation="3dp"
-                android:layout_below="@id/ratingBar">
+                >
 
 
                 <LinearLayout
@@ -112,7 +114,7 @@
                                 android:id="@+id/imgName"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/tmp_logo" />
+                                android:src="@drawable/ic_user" />
 
                             <TextView
                                 android:id="@+id/tvName"
@@ -136,7 +138,7 @@
                                 android:id="@+id/imgPhone"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/tmp_logo" />
+                                android:src="@drawable/ic_phone" />
 
                             <TextView
 
@@ -164,20 +166,20 @@
                             android:layout_weight="1">
 
                             <ImageView
-                                android:id="@+id/imgStartDate"
+                                android:id="@+id/imgCity"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/tmp_logo" />
+                                android:src="@drawable/ic_city" />
 
                             <TextView
 
                                 android:background="@null"
-                                android:id="@+id/tvEmail"
+                                android:id="@+id/tvCity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:minHeight="20dp"
                                 android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@id/imgStartDate"
+                                android:layout_toRightOf="@id/imgCity"
                                 android:textColor="#000"
                                 android:fontFamily="sans-serif-light"/>
                         </RelativeLayout>
@@ -188,20 +190,20 @@
                             android:layout_weight="1">
 
                             <ImageView
-                                android:id="@+id/imgTime"
+                                android:id="@+id/imgEmail"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/tmp_logo" />
+                                android:src="@drawable/ic_email" />
 
                             <TextView
                                 android:editable="false"
                                 android:background="@null"
-                                android:id="@+id/tvIdentityNo"
+                                android:id="@+id/tvEmail"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:minHeight="20dp"
                                 android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@id/imgTime"
+                                android:layout_toRightOf="@id/imgEmail"
                                 android:textColor="#000"
                                 android:fontFamily="sans-serif-light"/>
                         </RelativeLayout>
@@ -216,35 +218,10 @@
                         android:padding="5dp">
 
                         <ImageView
-                            android:id="@+id/imgCity"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
-
-                        <TextView
-                            android:editable="false"
-                            android:background="@null"
-                            android:id="@+id/tvCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:minHeight="20dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/imgCity"
-                            android:textColor="#000"
-                            android:fontFamily="sans-serif-light"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="5dp">
-
-                        <ImageView
                             android:id="@+id/imgAddress"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_location" />
 
                         <TextView
 
@@ -319,7 +296,7 @@
                             android:id="@+id/imgNama1"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_user" />
 
                         <EditText
 
@@ -342,7 +319,7 @@
                             android:id="@+id/imgEmail1"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_email" />
 
                         <EditText
                             android:id="@+id/etEmail"
@@ -364,7 +341,7 @@
                             android:id="@+id/imgPhone1"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_phone" />
 
                         <EditText
                             android:id="@+id/etPhone"

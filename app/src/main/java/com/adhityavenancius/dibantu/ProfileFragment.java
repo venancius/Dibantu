@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
         tvAddress = (TextView)view.findViewById(R.id.tvAddress);
         tvCity = (TextView)view.findViewById(R.id.tvCity);
         tvEmail = (TextView)view.findViewById(R.id.tvEmail);
-        tvIdentityNo = (TextView)view.findViewById(R.id.tvIdentityNo);
+
         tvPhone = (TextView)view.findViewById(R.id.tvPhone);
         imgPicture = (ImageView)view.findViewById(R.id.imgPicture);
 
@@ -382,7 +382,7 @@ public class ProfileFragment extends Fragment {
                             String phone = jsonRESULTS.getJSONObject("userdata").getString("phone");
                             String address = jsonRESULTS.getJSONObject("userdata").getString("address");
                             String city = jsonRESULTS.getJSONObject("citydata").getString("name");
-                            String identityno = jsonRESULTS.getJSONObject("userdata").getString("identity_no");
+
                             String email = jsonRESULTS.getJSONObject("userdata").getString("email");
                             String picture = jsonRESULTS.getJSONObject("userdata").getString("picture");
 
@@ -394,7 +394,7 @@ public class ProfileFragment extends Fragment {
                             tvPhone.setText(phone);
                             tvCity.setText(city);
                             tvEmail.setText(email);
-                            tvIdentityNo.setText(identityno);
+
                             tvAddress.setText(address);
 
                             etName.setText(name, TextView.BufferType.EDITABLE);

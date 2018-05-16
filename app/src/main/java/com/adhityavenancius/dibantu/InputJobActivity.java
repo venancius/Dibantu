@@ -82,7 +82,7 @@ public class InputJobActivity extends AppCompatActivity implements View.OnClickL
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://192.168.1.101:3000");
+            mSocket = IO.socket("http://192.168.1.104:3000");
         } catch (URISyntaxException e) {}
     }
 
