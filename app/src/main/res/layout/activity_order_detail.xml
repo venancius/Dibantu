@@ -80,7 +80,7 @@
                             android:id="@+id/imgName"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_user" />
 
                         <TextView
                             android:id="@+id/tvName"
@@ -102,7 +102,7 @@
                             android:id="@+id/imgPhone"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_phone" />
 
                         <TextView
                             android:id="@+id/tvPhone"
@@ -131,7 +131,7 @@
                             android:id="@+id/imgStartDate"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_date" />
 
                         <TextView
                             android:id="@+id/tvStartDate"
@@ -153,7 +153,7 @@
                             android:id="@+id/imgTime"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_time" />
 
                         <TextView
                             android:id="@+id/tvTime"
@@ -183,7 +183,7 @@
                             android:id="@+id/imgEndDate"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_date" />
 
                         <TextView
                             android:id="@+id/tvEndDate"
@@ -205,7 +205,7 @@
                             android:id="@+id/imgFare"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/tmp_logo" />
+                            android:src="@drawable/ic_fare" />
 
                         <TextView
                             android:id="@+id/tvFare"
@@ -231,7 +231,7 @@
                         android:id="@+id/imgLocation"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/tmp_logo" />
+                        android:src="@drawable/ic_location" />
 
                     <TextView
                         android:id="@+id/tvLocation"
@@ -254,7 +254,7 @@
                         android:id="@+id/imgNotes"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/tmp_logo" />
+                        android:src="@drawable/ic_note" />
 
                     <TextView
                         android:id="@+id/tvNotes"

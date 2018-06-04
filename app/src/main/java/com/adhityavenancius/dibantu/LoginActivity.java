@@ -65,10 +65,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         session = new SessionManager(getApplicationContext());
-        boolean loginstatus = session.checkLogin();
-        if(loginstatus==true){
-            finish();
-        }
+//        boolean loginstatus = session.checkLogin();
+//        if(loginstatus==true){
+//            finish();
+//        }
 
         mContext = this;
         mApiService = UtilsApi.getAPIService(); // meng-init yang ada di package apihelper
